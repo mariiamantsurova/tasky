@@ -1,24 +1,31 @@
 {
-  "name": "tasky",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "13.5.6"
-  },
-  "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "13.5.6"
-  }
+	"name": "tasky",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"date-fns": "^2.30.0",
+		"mongodb": "^6.2.0",
+		"mongoose": "^7.6.3",
+		"next": "13.5.6",
+		"react": "^18",
+		"react-day-picker": "^8.9.1",
+		"react-dom": "^18",
+		"react-switch": "^7.0.0",
+		"sass": "^1.69.4",
+		"zustand": "^4.4.4"
+	},
+	"devDependencies": {
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"eslint": "^8",
+		"eslint-config-next": "13.5.6",
+		"typescript": "^5"
+	}
 }

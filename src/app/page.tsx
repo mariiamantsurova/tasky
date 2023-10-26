@@ -1,95 +1,81 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import { useEffect, useState } from "react";
+//next
+import Image from "next/image";
+//styles
+import styles from "../styles/home.module.scss";
+//component
+import Header from "@/components/home-components/Header";
+import Accordion from "@/components/home-components/Accordion";
+import Footer from "@/components/Footer";
+import Modal from "@/components/home-components/Modal";
+import AddTask from "@/components/home-components/AddTask";
+import AddCategory from "@/components/home-components/AddCategory";
+//stores
+import { useDateStore } from "@/stores/DateStore";
+async function getData() {
+	const categories = await fetch(`http://localhost:3000/api/categories`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	const tasks = await fetch(`http://localhost:3000/api/tasks`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+
+	if (!categories.ok || !tasks.ok) {
+		throw new Error("Failed to fetch data");
+	}
+
+	return {
+		categories: await categories.json(),
+		tasks: await tasks.json(),
+	};
+}
+//TODO change type
+type Props = {
+	categories: Record<string, string>[];
+	tasks: Record<string, string>[];
+};
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+	const children = <h1>Hi</h1>;
+	const [data, setData] = useState<Props>();
+	const [showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false);
+	const [showAddCategoriesModal, setShowAddCategoriesModal] = useState<boolean>(false);
+	const date = useDateStore();
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+	useEffect(() => {
+		getData().then((data) => {
+			setData(data);
+		});
+	}, [date]);
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+	return (
+		<main className={styles["main"]} onClick={() => console.log(data)}>
+			<Header />
+			<section className={styles["tasks-sections"]}>
+				<Image className={styles["logo"]} src="/images/logo.png" alt="logo" width="605" height="500" />
+				<div className={styles["accordions-container"]}>
+					<Accordion title="Accordion" tasks={children} color="red" />
+					<Accordion title="Accordion" tasks={children} type="done" />
+				</div>
+			</section>
+			<Footer setOpen={setShowAddTaskModal} />
+			{showAddTaskModal && (
+				<Modal setOpen={setShowAddTaskModal} zIndex={2} height={"60%"}>
+					<AddTask setOpen={setShowAddTaskModal} setCategoryOpen={setShowAddCategoriesModal} />
+				</Modal>
+			)}
+			{showAddCategoriesModal && (
+				<Modal setOpen={setShowAddCategoriesModal} zIndex={4} height={"30%"}>
+					<AddCategory setOpen={setShowAddCategoriesModal} />
+				</Modal>
+			)}
+		</main>
+	);
 }

@@ -1,0 +1,124 @@
+@use "../colors" as *;
+.add-task-container {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	z-index: 3;
+	gap: 30px;
+	padding: 2rem;
+	height: 100%;
+	width: 100%;
+	border-radius: 36px;
+	background-color: white;
+	color: $primary-purple;
+	.add-task-input {
+		width: 80%;
+		padding: 1rem;
+		background-color: none;
+		border: none;
+		border-bottom: 2px solid rgba($primary-purple, 0.3);
+		font-size: 1rem;
+		&::placeholder {
+			color: rgba($primary-purple, 0.3);
+		}
+	}
+
+	.category-title {
+		display: flex;
+		gap: 10px;
+		h3 {
+			font-weight: 400;
+		}
+		button {
+			cursor: pointer;
+			display: grid;
+			place-items: center;
+			width: 30px;
+			height: 30px;
+			background: none;
+			border-radius: 50%;
+			border: 2px solid $primary-purple;
+			svg {
+				width: 15px;
+				height: 15px;
+				path {
+					fill: $primary-purple;
+				}
+			}
+
+			&:hover {
+				animation: button-rotate 1s ease-in-out;
+			}
+		}
+	}
+	.categories-container {
+		overflow-y: auto;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		button {
+			cursor: pointer;
+			padding: 0rem 1rem;
+			border-radius: 36px;
+			border: 2px solid $primary-purple;
+			background: none;
+			font-size: 1.1rem;
+			color: $primary-purple;
+			transition: background 0.01s ease-in-out;
+		}
+		.selected {
+			background: $primary-purple;
+			color: white;
+		}
+	}
+	.notification-container {
+		h3 {
+			font-weight: 400;
+		}
+	}
+	.add-btn {
+		cursor: pointer;
+		align-self: center;
+		display: grid;
+		place-items: center;
+		z-index: 4;
+		position: absolute;
+		bottom: -10%;
+		width: 100px;
+		height: 100px;
+		background: $primary-purple;
+		border-radius: 50%;
+		border: 10px solid white;
+		&::before {
+			content: "";
+			position: absolute;
+			top: 46%;
+			left: -30px;
+			width: 20px;
+			height: 20px;
+			border-top-right-radius: 50%;
+			box-shadow: 0px -10px 0 0 white;
+		}
+		&::after {
+			content: "";
+			position: absolute;
+			top: 46%;
+			right: -30px;
+			width: 20px;
+			height: 20px;
+			border-top-left-radius: 50%;
+			box-shadow: 0px -10px 0 0 white;
+		}
+	}
+}
+
+@keyframes button-rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(90deg);
+	}
+}

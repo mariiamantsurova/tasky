@@ -1,0 +1,21 @@
+@use "../colors" as *;
+@import "../mixins.scss";
+.date-wrapper-container {
+	@include glass;
+	position: absolute;
+	z-index: 2;
+	top: 25%;
+	right: 5%;
+	border-radius: 10px;
+	button {
+		&:hover {
+			border-radius: 10px;
+			background-color: rgba($color: $primary-purple, $alpha: 0.2) !important;
+		}
+	}
+	.selected {
+		color: white;
+		border-radius: 10px;
+		background-color: $primary-purple;
+	}
+}

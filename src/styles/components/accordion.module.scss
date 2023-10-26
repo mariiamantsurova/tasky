@@ -1,0 +1,44 @@
+@use "../colors" as *;
+@import "../mixins.scss";
+
+.accordion-container {
+	@include glass;
+	border: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	width: 40%;
+	border-radius: 10px;
+	transition: scale 0.1s ease-in-out;
+	&:hover {
+		scale: 1.02;
+	}
+	.ticket {
+		position: absolute;
+		left: 0;
+		width: 4%;
+		height: 100%;
+		border-radius: 10px 0 0px 10px;
+	}
+	.accordion-wrapper {
+		@include default-btn;
+		align-self: center;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 80%;
+		margin: 10;
+		border-radius: 10;
+		h3 {
+			font-weight: 400;
+		}
+	}
+	.hidden {
+		height: 0;
+	}
+	.list {
+		overflow: hidden;
+	}
+}
