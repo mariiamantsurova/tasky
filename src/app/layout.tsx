@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "../styles/global.scss";
-import { Children } from "react";
 
 export const metadata: Metadata = {
 	title: "Tasky",

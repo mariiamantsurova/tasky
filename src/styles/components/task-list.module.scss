@@ -1,0 +1,62 @@
+@import "../mixins.scss";
+.task-list-container {
+	width: 100%;
+	margin-top: 1rem;
+	.task-list-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1rem;
+		border-top: 2px solid #bfc5cf;
+		.check-mark {
+			position: relative;
+			display: flex;
+			align-items: center;
+			svg {
+				position: absolute;
+				right: 40%;
+			}
+		}
+		input[type="checkbox"] {
+			/* removing default appearance */
+			-webkit-appearance: none;
+			appearance: none;
+			/* creating a custom design */
+			width: 2rem;
+			height: 2rem;
+			border-radius: 10px;
+			margin-right: 0.5em;
+			background-color: #f4eeee;
+			outline: none;
+			cursor: pointer;
+			&:disabled {
+				background-color: #bfc5cf;
+			}
+		}
+		.done {
+			text-decoration: line-through;
+		}
+		h3 {
+			font-weight: 300;
+		}
+		.task-list-right {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			button {
+				@include default-btn;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.task-list-container {
+		.task-list-wrapper {
+			h3 {
+				font-size: 15px;
+			}
+		}
+	}
+}

@@ -18,7 +18,6 @@ const DateWrapper: React.FC<Prop> = ({ setOpen }) => {
 
 	useEffect(() => {
 		const listener = (event: MouseEvent) => {
-			console.log("hi");
 			if (!ref.current || ref.current.contains(event.target as HTMLElement)) return;
 			setOpen(false);
 		};
@@ -31,7 +30,7 @@ const DateWrapper: React.FC<Prop> = ({ setOpen }) => {
 			<DayPicker
 				mode="single"
 				selected={date}
-				onSelect={(date) => setValue({ date: date })}
+				onSelect={(date) => setValue("date", date)}
 				modifiersClassNames={{
 					selected: `${styles["selected"]}`,
 				}}

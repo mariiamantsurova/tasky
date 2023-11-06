@@ -6,10 +6,11 @@ import styles from "../../styles/components/add-task.module.scss";
 //components
 import Switch from "react-switch";
 import Plus from "../../../public/icons/Plus";
-import AddCategory from "./AddCategory";
-import Modal from "./Modal";
 //stores
-import { useTasksStore } from "@/stores/TasksStore";
+import { useGetTasksStore, useTasksStore } from "@/stores/TasksStore";
+import { useGetCategoryStore } from "@/stores/CategoriesStore";
+import { useDateStore } from "@/stores/DateStore";
+import toast, { Toaster } from "react-hot-toast";
 
 type Props = {
 	setOpen: Dispatch<SetStateAction<boolean>>;
@@ -17,18 +18,20 @@ type Props = {
 };
 
 const AddTask: React.FC<Props> = ({ setOpen, setCategoryOpen }) => {
-	const categories = [
-		{ title: "dev", id: "1" },
-		{ title: "house", id: "2" },
-		{ title: "study", id: "3" },
-	];
-	const { title, category, date, notification, setValue, reset } = useTasksStore();
+	const { categories } = useGetCategoryStore();
+	const { task, category, important, setValue, reset } = useTasksStore();
+	const { date } = useDateStore();
+	const setTasks = useGetTasksStore().setValue;
+	const { tasks } = useGetTasksStore();
 	const [selected, setSelected] = useState<number | undefined>();
 
 	const handleSubmit = async (e: MouseEvent<HTMLElement>) => {
 		e.preventDefault();
-		if (!title || !category) {
-			alert("title and category is required");
+		const localDateString = date ? date.toLocaleDateString() : new Date().toLocaleDateString();
+		if (!task || !category) {
+			console.log(task);
+			console.log(category);
+			toast.error("task and category is required");
 			return;
 		}
 		try {
@@ -37,24 +40,27 @@ const AddTask: React.FC<Props> = ({ setOpen, setCategoryOpen }) => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ title, category, date, notification }),
+				body: JSON.stringify({ task, category, localDateString, important }),
 			});
 			if (res.ok) {
-				alert("task added successfully");
+				const { _id } = await res.json();
+				setTasks({ tasks: [...Object.values(tasks), { _id: _id, task: task, category: category, important: important }] });
 				reset();
-				setOpen(false);
+				toast.success("task added successfully");
+				setTimeout(() => {
+					setOpen(false);
+				}, 2000);
 			} else {
-				//TODO change alerts with toasts
-				alert("error in adding task");
+				throw new Error("error in adding task");
 			}
 		} catch (error) {
-			alert("Oops something went wrong");
+			toast.error("Oops something went wrong" + error);
 		}
 	};
 
 	return (
 		<div className={styles["add-task-container"]}>
-			<input type="text" placeholder="Type the Task" className={styles["add-task-input"]} onChange={(e) => setValue("title", e.target.value)} />
+			<input type="text" placeholder="Type the Task" className={styles["add-task-input"]} onChange={(e) => setValue("task", e.target.value)} />
 			<div className={styles["category-title"]}>
 				<h3>Categories</h3>
 				<button onClick={() => setCategoryOpen(true)}>
@@ -62,26 +68,27 @@ const AddTask: React.FC<Props> = ({ setOpen, setCategoryOpen }) => {
 				</button>
 			</div>
 			<div className={styles["categories-container"]}>
-				{categories.map((category, index) => {
-					return (
-						<button
-							className={styles[`${index === selected && "selected"}`]}
-							key={category.id}
-							onClick={() => {
-								setValue("category", category.title);
-								setSelected(index);
-							}}
-						>
-							{category.title}
-						</button>
-					);
+				{Object.values(categories).map((category, index) => {
+					if (category.title !== "done")
+						return (
+							<button
+								className={styles[`${index === selected && "selected"}`]}
+								key={category._id}
+								onClick={() => {
+									setValue("category", category.title);
+									setSelected(index);
+								}}
+							>
+								{category.title}
+							</button>
+						);
 				})}
 			</div>
-			<div className={styles["notification-container"]}>
-				<h3>notification</h3>
+			<div className={styles["important-container"]}>
+				<h3>important</h3>
 				<Switch
-					onChange={(e) => setValue("notification", e)}
-					checked={notification}
+					onChange={(e) => setValue("important", e)}
+					checked={important}
 					offColor="#E8DBF1"
 					onColor="#7209B7"
 					checkedIcon={false}
@@ -91,6 +98,7 @@ const AddTask: React.FC<Props> = ({ setOpen, setCategoryOpen }) => {
 			<button className={styles["add-btn"]} onClick={(e: MouseEvent<HTMLElement>) => handleSubmit(e)}>
 				<Plus />
 			</button>
+			<Toaster />
 		</div>
 	);
 };

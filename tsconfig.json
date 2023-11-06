@@ -32,7 +32,8 @@
 		"lib/mongodb/categories.js",
 		"lib/mongodb/categories.js",
 		"lib/mongodb/index.ts",
-		"src/app/api/categories"
+		"src/app/api/categories",
+		"public/images/logoSmall.png"
 	],
 	"exclude": ["node_modules"]
 }

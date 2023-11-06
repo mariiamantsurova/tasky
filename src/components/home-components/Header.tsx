@@ -1,6 +1,6 @@
 "use client";
 //react
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 //next
 //styles
 import styles from "../../styles/components/header.module.scss";
@@ -8,10 +8,15 @@ import styles from "../../styles/components/header.module.scss";
 import Print from "../../../public/icons/Print";
 import Calendar from "../../../public/icons/Calendar";
 import DateWrapper from "./DateWrapper";
+import { Toaster, toast } from "react-hot-toast";
+import Logout from "../../../public/icons/Logout";
+import ComponentToPrintWithRef from "./ComponentToPrint";
 //hooks
 import { useDateStore } from "@/stores/DateStore";
-import { weekdays } from "../../../constansts/weekdays";
+import { useReactToPrint } from "react-to-print";
+import { useRouter } from "next/navigation";
 //constants
+import { weekdays } from "../../../constansts/weekdays";
 
 type listDay = {
 	weekDay: string;
@@ -24,6 +29,9 @@ const Header = () => {
 	const [datePickerOpen, setDatePickerOpen] = useState<boolean>(false);
 	const { date, setValue } = useDateStore();
 	const [listDay, setListDay] = useState<listDay[]>([]);
+	const router = useRouter();
+
+	const componentRef = useRef<HTMLDivElement>(null);
 
 	const listArray = useCallback((date: Date | undefined): Array<listDay> => {
 		!date && (date = new Date());
@@ -47,6 +55,30 @@ const Header = () => {
 		setToday(new Date());
 	}, []);
 
+	const handlePrint = useReactToPrint({
+		content: () => componentRef.current,
+	});
+
+	const handleLogout = async () => {
+		try {
+			const res = await fetch(`http://localhost:3000/api/auth/logout`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				credentials: "include",
+			});
+			const { message, error } = await res.json();
+			if (res.ok) {
+				toast.success(message);
+				router.push("/login");
+			}
+			if (error) throw new Error(error);
+		} catch (error: any) {
+			toast.error(error);
+		}
+	};
+
 	return (
 		<header className={styles["header-container"]}>
 			<div className={styles["today-container"]}>
@@ -54,11 +86,14 @@ const Header = () => {
 					<h2>{today.toDateString()}</h2>
 				</div>
 				<div className={styles["btns-container"]}>
-					<button>
+					<button onClick={handlePrint}>
 						<Print />
 					</button>
 					<button onClick={() => setDatePickerOpen(true)}>
 						<Calendar />
+					</button>
+					<button onClick={handleLogout}>
+						<Logout />
 					</button>
 				</div>
 			</div>
@@ -71,7 +106,7 @@ const Header = () => {
 							<button
 								className={styles["day-btn"]}
 								onClick={() => {
-									setValue({ date: day.fullDate });
+									setValue("date", day.fullDate);
 								}}
 							>
 								<h3>{day.dateDay}</h3>
@@ -80,6 +115,10 @@ const Header = () => {
 					);
 				})}
 			</div>
+			<div style={{ display: "none" }}>
+				<ComponentToPrintWithRef ref={componentRef} />
+			</div>
+			<Toaster />
 		</header>
 	);
 };

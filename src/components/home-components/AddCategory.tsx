@@ -4,7 +4,8 @@ import React, { Dispatch, MouseEvent, SetStateAction, useEffect } from "react";
 import styles from "../../styles/components/add-category.module.scss";
 //components
 import Plus from "../../../public/icons/Plus";
-import { useCategoryStore } from "@/stores/CategoriesStore";
+import { useCategoryStore, useGetCategoryStore } from "@/stores/CategoriesStore";
+import { Toaster, toast } from "react-hot-toast";
 
 type Props = {
 	setOpen: Dispatch<SetStateAction<boolean>>;
@@ -13,10 +14,13 @@ type Props = {
 const AddCategory: React.FC<Props> = ({ setOpen }) => {
 	const { title, setValue, reset } = useCategoryStore();
 
+	const setCategoriesValue = useGetCategoryStore().setValue;
+	const { categories } = useGetCategoryStore();
+
 	const handleSubmit = async (e: MouseEvent<HTMLElement>) => {
 		e.preventDefault();
 		if (!title) {
-			alert("category and color is required");
+			toast.error("category and color is required");
 			return;
 		}
 		try {
@@ -28,14 +32,16 @@ const AddCategory: React.FC<Props> = ({ setOpen }) => {
 				body: JSON.stringify({ title }),
 			});
 			if (res.ok) {
-				alert("category added successfully");
+				toast.success("category added successfully");
+				const { _id, color } = await res.json();
+				setCategoriesValue({ categories: [...Object.values(categories), { _id: _id, title: title, color: color }] });
 				reset();
 				setOpen(false);
 			} else {
-				alert("error in adding category");
+				toast.error("error in adding category");
 			}
 		} catch (error) {
-			alert("Oops something went wrong");
+			toast.error("Oops something went wrong");
 		}
 	};
 
@@ -50,6 +56,7 @@ const AddCategory: React.FC<Props> = ({ setOpen }) => {
 			>
 				<Plus />
 			</button>
+			<Toaster />
 		</div>
 	);
 };

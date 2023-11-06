@@ -4,7 +4,8 @@
 	justify-content: center;
 	align-items: center;
 	height: 100%;
-	.tasks-sections {
+	.tasks-section {
+		overflow-x: hidden;
 		display: flex;
 		align-items: center;
 		flex-direction: column;
@@ -19,12 +20,20 @@
 			justify-content: center;
 			gap: 30px;
 			width: 100%;
-			margin: 20rem 0rem 5rem;
+			margin: 0rem 0rem 5rem;
 		}
 		.logo {
-			position: absolute;
-			top: 0;
-			z-index: 0;
+			position: relative;
+			width: 400px;
+			min-height: 300px;
+		}
+	}
+}
+@media screen and (max-width: 768px) {
+	.main {
+		.logo {
+			width: 300px;
+			height: 200px;
 		}
 	}
 }

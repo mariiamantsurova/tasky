@@ -1,0 +1,30 @@
+@use "../colors" as *;
+@import "../mixins.scss";
+.component-to-print-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	.category-title {
+		@include glass;
+		width: 80%;
+		padding: 1rem;
+		border-radius: 10px;
+		font-size: 0.6rem;
+		.task-container {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			.task-title {
+				font-weight: 400;
+			}
+			.checkmark {
+				display: inline-block;
+				width: 25px;
+				height: 25px;
+				background-color: #f4eeee;
+				border-radius: 10px;
+			}
+		}
+	}
+}

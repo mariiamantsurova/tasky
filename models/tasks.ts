@@ -1,10 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 const taskSchema = new Schema(
 	{
-		title: String,
+		task: { type: String, required: true },
 		category: String,
 		date: Date,
-		notification: Boolean,
+		important: Boolean,
+		user_id: String,
 	},
 	{
 		timestamps: true,

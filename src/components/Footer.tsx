@@ -10,21 +10,23 @@ import styles from "../styles/components/footer.module.scss";
 import Tasks from "../../public/icons/Tasks";
 import Dashboard from "../../public/icons/Dashboard";
 import Plus from "../../public/icons/Plus";
+import { useDateRangeStore } from "@/stores/DateRange";
 //hooks
 //constants
 
 type Props = {
-	setOpen: Dispatch<SetStateAction<boolean>>;
+	setOpen?: Dispatch<SetStateAction<boolean>>;
 };
 
 const Footer: React.FC<Props> = ({ setOpen }) => {
 	const location = usePathname();
+	const { reset } = useDateRangeStore();
 
 	return (
 		<footer className={styles["footer-container"]}>
 			<div className={styles["links-wrapper"]}>
 				<div className={`${styles["link-container"]} ${location === "/" ? styles["active-link"] : ""}`}>
-					<Link href="/">
+					<Link href="/" onClick={() => reset()}>
 						<Tasks />
 					</Link>
 					<h3>tasks</h3>
@@ -37,9 +39,11 @@ const Footer: React.FC<Props> = ({ setOpen }) => {
 				</div>
 			</div>
 			<div className={styles["plus-container"]}>
-				<button className={styles["plus-wrapper"]} onClick={() => setOpen(true)}>
-					<Plus />
-				</button>
+				{setOpen && (
+					<button className={styles["plus-wrapper"]} onClick={() => setOpen(true)}>
+						<Plus />
+					</button>
+				)}
 			</div>
 		</footer>
 	);

@@ -3,6 +3,7 @@ const categorySchema = new Schema(
 	{
 		title: String,
 		color: String,
+		user_id: String,
 	},
 	{
 		timestamps: true,

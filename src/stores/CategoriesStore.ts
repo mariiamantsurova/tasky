@@ -1,12 +1,16 @@
 import { createWithEqualityFn } from "zustand/traditional";
 import { shallow } from "zustand/shallow";
-import { StoreSetter, reset } from "@/types/StoreSetter";
+import { StoreSetter, StoreSetterAll, reset } from "@/types/StoreSetter";
 
-type CategoryType = {
+export type CategoryType = {
+	_id: string;
 	title: string;
+	color: string;
 };
-
-export const useCategoryStore = createWithEqualityFn<CategoryType & StoreSetter<CategoryType> & reset>(
+type CategoriesArray = {
+	categories: CategoryType[];
+};
+export const useCategoryStore = createWithEqualityFn<Pick<CategoryType, "title"> & StoreSetter<Pick<CategoryType, "title">> & reset>(
 	(set) => ({
 		title: "",
 		setValue(skey, value) {
@@ -16,6 +20,15 @@ export const useCategoryStore = createWithEqualityFn<CategoryType & StoreSetter<
 			set({
 				title: "",
 			});
+		},
+	}),
+	shallow,
+);
+export const useGetCategoryStore = createWithEqualityFn<CategoriesArray & StoreSetterAll<CategoriesArray>>(
+	(set) => ({
+		categories: [],
+		setValue(values) {
+			set(values);
 		},
 	}),
 	shallow,

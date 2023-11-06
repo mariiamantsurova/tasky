@@ -1,30 +1,39 @@
 import { createWithEqualityFn } from "zustand/traditional";
 import { shallow } from "zustand/shallow";
-import { StoreSetter, reset } from "@/types/StoreSetter";
+import { StoreSetter, StoreSetterAll, reset } from "@/types/StoreSetter";
 
-type TaskType = {
-	title: string;
+export type TaskType = {
+	_id: string;
+	task: string;
 	category: string;
-	date: Date;
-	notification: boolean;
+	important: boolean;
 };
-
-export const useTasksStore = createWithEqualityFn<TaskType & StoreSetter<TaskType> & reset>(
+export type Tasks = {
+	tasks: TaskType[];
+};
+export const useTasksStore = createWithEqualityFn<Omit<TaskType, "_id"> & StoreSetter<Omit<TaskType, "_id">> & reset>(
 	(set) => ({
-		title: "",
+		task: "",
 		category: "",
-		date: new Date(),
-		notification: false,
+		important: false,
 		setValue(skey, value) {
 			set({ [skey]: value });
 		},
 		reset() {
 			set({
-				title: "",
+				task: "",
 				category: "",
-				date: new Date(),
-				notification: false,
+				important: false,
 			});
+		},
+	}),
+	shallow,
+);
+export const useGetTasksStore = createWithEqualityFn<Tasks & StoreSetterAll<Tasks>>(
+	(set) => ({
+		tasks: [],
+		setValue(values) {
+			set(values);
 		},
 	}),
 	shallow,
