@@ -18,23 +18,19 @@ import { useDateStore } from "@/stores/DateStore";
 import { useGetCategoryStore } from "@/stores/CategoriesStore";
 import { TaskType, useGetTasksStore } from "@/stores/TasksStore";
 import Loader from "@/components/Loader";
+import { getTasksByCategory } from "@/functions/getTasksByCategory";
 //types
 
-export const getTasksByCategory = (category: string, tasks: TaskType[]) => {
-	return Object.values(tasks).filter((task) => {
-		return task.category === category;
-	});
-};
-
 async function getData(date: Date | undefined) {
+	console.log(process.env.BASE_URL);
 	const localDateString = date?.toLocaleDateString();
-	const categories = await fetch(`http://localhost:3000/api/categories`, {
+	const categories = await fetch(`${process.env.BASE_URL}/api/categories`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
 		},
 	});
-	const tasks = await fetch(`http://localhost:3000/api/getTasks`, {
+	const tasks = await fetch(`${process.env.BASE_URL}/api/getTasks`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -70,7 +66,7 @@ const Home = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await fetch(`http://localhost:3000/api/checkAuth`, {
+				const res = await fetch(`${process.env.BASE_URL}/api/checkAuth`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -110,7 +106,7 @@ const Home = () => {
 							{Object.values(categories)
 								.reverse()
 								.map((category) => {
-									const tasksByCategory = getTasksByCategory(category.title, tasks);
+									const tasksByCategory: TaskType[] = getTasksByCategory(category.title, tasks);
 									if (tasksByCategory.length) {
 										return (
 											<Accordion

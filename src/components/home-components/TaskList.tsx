@@ -18,7 +18,7 @@ const TaskList: React.FC<Props> = ({ tasksByCategory, type }) => {
 	const { tasks, setValue } = useGetTasksStore();
 	const onDelete = async (_id: string) => {
 		try {
-			const res = await fetch(`http://localhost:3000/api/tasks`, {
+			const res = await fetch(`${process.env.BASE_URL}/api/tasks`, {
 				method: "DELETE",
 				headers: {
 					"Content-Type": "application/json",
@@ -42,7 +42,7 @@ const TaskList: React.FC<Props> = ({ tasksByCategory, type }) => {
 	const onChecked = async (_id: string) => {
 		console.log("checked");
 		try {
-			const res = await fetch(`http://localhost:3000/api/tasks`, {
+			const res = await fetch(`${process.env.BASE_URL}/api/tasks`, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",

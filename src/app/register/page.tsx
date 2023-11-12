@@ -9,17 +9,9 @@ import toast, { Toaster } from "react-hot-toast";
 //styles
 import styles from "../../styles/sign-in-up.module.scss";
 import Logo from "../../../public/icons/Logo";
+import { validate } from "@/functions/validate";
 //component
-export const validate = (username: string, password: string, confirmPassword?: string, pathname?: string) => {
-	if (!Validator.username.test(username) && !Validator.password.test(password)) {
-		throw new Error(" Username or Password is not Valid");
-	}
-	if (pathname === "/register") {
-		if (password !== confirmPassword) {
-			throw new Error(" Password and confirm password don't match");
-		}
-	}
-};
+
 const Register = () => {
 	const [username, setUsername] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
@@ -30,7 +22,7 @@ const Register = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await fetch(`http://localhost:3000/api/checkAuth`, {
+				const res = await fetch(`${process.env.BASE_URL}/api/checkAuth`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -53,7 +45,7 @@ const Register = () => {
 		e.preventDefault();
 		try {
 			validate(username, password, confirmPassword, pathname);
-			const res = await fetch(`http://localhost:3000/api/auth/register`, {
+			const res = await fetch(`${process.env.BASE_URL}/api/auth/register`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

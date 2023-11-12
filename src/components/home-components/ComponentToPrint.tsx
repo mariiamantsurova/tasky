@@ -9,8 +9,8 @@ import styles from "../../styles/components/component-to-print.module.scss";
 import { useGetCategoryStore } from "@/stores/CategoriesStore";
 import { useGetTasksStore } from "@/stores/TasksStore";
 //functions
-import { getTasksByCategory } from "@/app/page";
 import Important from "../../../public/icons/Important";
+import { getTasksByCategory } from "@/functions/getTasksByCategory";
 
 const ComponentToPrint = () => {
 	const { categories } = useGetCategoryStore();

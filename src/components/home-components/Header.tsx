@@ -15,8 +15,8 @@ import ComponentToPrintWithRef from "./ComponentToPrint";
 import { useDateStore } from "@/stores/DateStore";
 import { useReactToPrint } from "react-to-print";
 import { useRouter } from "next/navigation";
+import { weekdays } from "@/constansts/weekdays";
 //constants
-import { weekdays } from "../../../constansts/weekdays";
 
 type listDay = {
 	weekDay: string;
@@ -61,7 +61,7 @@ const Header = () => {
 
 	const handleLogout = async () => {
 		try {
-			const res = await fetch(`http://localhost:3000/api/auth/logout`, {
+			const res = await fetch(`${process.env.BASE_URL}/api/auth/logout`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

@@ -3,7 +3,7 @@ import styles from "../styles/components/loader.module.scss";
 const Loader = () => {
 	return (
 		<div className={styles["loader-container"]}>
-			<svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0">
+			<svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 100 100" enableBackground="new 0 0 0 0">
 				<circle fill="#7209b7" stroke="none" cx="6" cy="50" r="6">
 					<animateTransform attributeName="transform" dur="1s" type="translate" values="0 15 ; 0 -15; 0 15" repeatCount="indefinite" begin="0.1" />
 				</circle>

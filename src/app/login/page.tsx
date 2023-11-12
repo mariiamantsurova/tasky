@@ -4,12 +4,12 @@ import React, { SyntheticEvent, useEffect, useState } from "react";
 //next`
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { validate } from "../register/page";
 import toast, { Toaster } from "react-hot-toast";
 //style
 import styles from "../../styles/sign-in-up.module.scss";
 //component
 import Logo from "../../../public/icons/Logo";
+import { validate } from "@/functions/validate";
 
 const Login = () => {
 	const [username, setUsername] = useState<string>("");
@@ -20,7 +20,7 @@ const Login = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await fetch(`http://localhost:3000/api/checkAuth`, {
+				const res = await fetch(`${process.env.BASE_URL}/api/checkAuth`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -43,7 +43,7 @@ const Login = () => {
 		e.preventDefault();
 		try {
 			validate(username, password, pathname);
-			const res = await fetch(`http://localhost:3000/api/auth/login`, {
+			const res = await fetch(`${process.env.BASE_URL}/api/auth/login`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

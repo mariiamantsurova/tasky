@@ -1,9 +1,9 @@
 import connectMongoDb from "@lib/mongodb";
 import Task from "@models/tasks";
 import { NextRequest } from "next/server";
-import { weekdays } from "../../../../constansts/weekdays";
 import { JwtPayload, verify } from "jsonwebtoken";
 import { secret } from "../auth/login/route";
+import { weekdays } from "@/constansts/weekdays";
 
 export async function POST(req: NextRequest) {
 	const { dateStartString, dateFinishString } = await req.json();
