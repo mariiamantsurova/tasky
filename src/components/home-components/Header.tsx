@@ -61,7 +61,7 @@ const Header = () => {
 
 	const handleLogout = async () => {
 		try {
-			const res = await fetch(`${process.env.BASE_URL}/api/auth/logout`, {
+			const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

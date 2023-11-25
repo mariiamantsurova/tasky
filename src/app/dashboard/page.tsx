@@ -22,21 +22,21 @@ async function getData(dateStart: Date | undefined, dateFinish: Date | undefined
 	const dateStartString = dateStart?.toLocaleDateString();
 	const dateFinishString = dateFinish?.toLocaleDateString();
 
-	const resStatsCategory = await fetch(`${process.env.BASE_URL}/api/statsCategory`, {
+	const resStatsCategory = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/statsCategory`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ dateStartString, dateFinishString }),
 	});
-	const resStatsCompleted = await fetch(`${process.env.BASE_URL}/api/statsCompleted`, {
+	const resStatsCompleted = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/statsCompleted`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ dateStartString, dateFinishString }),
 	});
-	const resStatsDate = await fetch(`${process.env.BASE_URL}/api/statsDate`, {
+	const resStatsDate = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/statsDate`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -82,7 +82,7 @@ const Dashboard = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await fetch(`${process.env.BASE_URL}/api/checkAuth`, {
+				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/checkAuth`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",

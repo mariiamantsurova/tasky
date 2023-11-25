@@ -22,15 +22,14 @@ import { getTasksByCategory } from "@/functions/getTasksByCategory";
 //types
 
 async function getData(date: Date | undefined) {
-	console.log(process.env.BASE_URL);
 	const localDateString = date?.toLocaleDateString();
-	const categories = await fetch(`${process.env.BASE_URL}/api/categories`, {
+	const categories = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
 		},
 	});
-	const tasks = await fetch(`${process.env.BASE_URL}/api/getTasks`, {
+	const tasks = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getTasks`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -66,7 +65,7 @@ const Home = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await fetch(`${process.env.BASE_URL}/api/checkAuth`, {
+				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/checkAuth`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",

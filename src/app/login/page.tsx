@@ -20,7 +20,7 @@ const Login = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await fetch(`${process.env.BASE_URL}/api/checkAuth`, {
+				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/checkAuth`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -43,7 +43,7 @@ const Login = () => {
 		e.preventDefault();
 		try {
 			validate(username, password, pathname);
-			const res = await fetch(`${process.env.BASE_URL}/api/auth/login`, {
+			const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

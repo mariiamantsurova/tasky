@@ -22,7 +22,7 @@ const Register = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await fetch(`${process.env.BASE_URL}/api/checkAuth`, {
+				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/checkAuth`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -45,7 +45,7 @@ const Register = () => {
 		e.preventDefault();
 		try {
 			validate(username, password, confirmPassword, pathname);
-			const res = await fetch(`${process.env.BASE_URL}/api/auth/register`, {
+			const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

@@ -24,7 +24,7 @@ const AddCategory: React.FC<Props> = ({ setOpen }) => {
 			return;
 		}
 		try {
-			const res = await fetch(`${process.env.BASE_URL}/api/categories`, {
+			const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

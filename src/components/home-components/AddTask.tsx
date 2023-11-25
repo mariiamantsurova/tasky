@@ -35,7 +35,7 @@ const AddTask: React.FC<Props> = ({ setOpen, setCategoryOpen }) => {
 			return;
 		}
 		try {
-			const res = await fetch(`${process.env.BASE_URL}/api/tasks`, {
+			const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tasks`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
